@@ -13,8 +13,8 @@ public class GameOfLife {
 		//// (Run one test at a time).
 		//// test1(fileName);
 		///test2(fileName);
-		//test3(fileName, 3);
-		play(fileName);
+		test3(fileName, 3);
+		//play(fileName);
 	}
 	// Reads the data file and prints the initial board.
 	private static void test1(String fileName) {
@@ -140,7 +140,7 @@ public class GameOfLife {
 		int num_col=arr[0].length;
 		for(int i=1;i<numb_row-1;i++){
 			for(int j=1;j<num_col-1;j++){
-				System.out.print(arr[i][j]+" ");
+				System.out.print("  "+ arr[i][j]);
 			}
 			System.out.println();
 		}
