@@ -91,7 +91,6 @@ public class TesterGameOfLife {
 			board = GameOfLife.evolve(board);
 		}
 	}
-    
-    
+
 }    
 
