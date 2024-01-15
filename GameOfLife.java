@@ -12,11 +12,10 @@ public class GameOfLife {
 		//// Uncomment the test that you want to execute, and re-compile.
 		//// (Run one test at a time).
 		//// test1(fileName);
-		//// test2(fileName);
-		//// test3(fileName, 3);
-		//// play(fileName);
+		///test2(fileName);
+		//test3(fileName, 3);
+		play(fileName);
 	}
-	
 	// Reads the data file and prints the initial board.
 	private static void test1(String fileName) {
 		int[][] board = read(fileName);
@@ -27,6 +26,7 @@ public class GameOfLife {
 	// the count and cellValue functions.
 	private static void test2(String fileName) {
 		int[][] board = read(fileName);
+		System.out.println(count(board,3,3));
 		//// Write here code that tests that the count and cellValue functions
 		//// are working properly, and returning the correct values.
 	}
@@ -60,19 +60,38 @@ public class GameOfLife {
 	// This function assumes that the input file contains valid data, and does no input testing.
 	private static int[][] read(String fileName) {
 		In in = new In(fileName); // Constructs an In object for reading the input file
+		int counter=0;
 		int rows = Integer.parseInt(in.readLine());
 		int cols = Integer.parseInt(in.readLine());
 		int[][] board = new int[rows + 2][cols + 2];
+		for(int i=1; i<=rows;i++){
+			String line = in.readLine();
+			for (int j =1;j<=cols;j++){
+				if (!line.isEmpty() &&line.length()>=j && line.charAt(j-1)=='x'){
+					board[i][j]= 1;
+				}
+				else{
+					board[i][j]= 0;}
+
+			}
+		}
 		//// Replace the following statement with your code.
-		return null;
+		return board;
 	}
 	
 	// Creates a new board from the given board, using the rules of the game.
 	// Uses the cellValue(board,i,j) function to compute the value of each 
 	// cell in the new board. Returns the new board.
 	private static int[][] evolve(int[][] board) {
-		//// Replace the following statement with your code.
-		return null;
+		int rows=board.length;
+		int cols=board[0].length;
+		int[][] new_board = new int[rows][cols];
+		for(int i=1;i<rows-1;i++){
+			for(int j=1;j<cols-1;j++){
+				new_board[i][j]=cellValue(board,i,j);
+			}
+		}
+		return new_board;
 	}
 
 	// Returns the value that cell (i,j) should have in the next generation.
@@ -85,24 +104,49 @@ public class GameOfLife {
 	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
 	// Uses the count(board,i,j) function to count the number of alive neighbors.
 	private static int cellValue(int[][] board, int i, int j) {
+		if (board[i][j]==1 && count(board,i,j)<2){
+			return 0;
+		}
+		else if (board[i][j]==1 && count(board,i,j)>3) {
+			return 0;
+		} else if (board[i][j]==0 && count(board,i,j)==3) {
+			return 1;
+		}
 		//// Replace the following statement with your code.
-		return 0;
+		return board[i][j];
 	}
-	
+
 	// Counts and returns the number of living neighbors of the given cell
 	// (The cell itself is not counted).
 	// Assumes that i is at least 1 and at most the number of rows in the board - 1. 
 	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
 	private static int count(int[][] board, int i, int j) {
+		int counter =0;
+		for(int it = 0;it<3;it++){
+			for(int jt = 0;jt<3;jt++){
+				if(!(it == 1 && jt == 1) && board[i-1+it][j-1+jt] == 1 ){
+					counter++;
+				}
+
+			}
+		}
 		//// Replace the following statement with your code.
-		return 0;
+		return counter;
 	}
 	
 	// Prints the board. Alive and dead cells are printed as 1 and 0, respectively.
     private static void print(int[][] arr) {
+		int numb_row=arr.length;
+		int num_col=arr[0].length;
+		for(int i=1;i<numb_row-1;i++){
+			for(int j=1;j<num_col-1;j++){
+				System.out.print(arr[i][j]+" ");
+			}
+			System.out.println();
+		}
 		//// Write your code here.
 	}
-		
+
     // Displays the board. Living and dead cells are represented by black and white squares, respectively.
     // We use a fixed-size canvas of 900 pixels by 900 pixels for displaying game boards of different sizes.
     // In order to handle any given board size, we scale the X and Y dimensions according to the board size.
